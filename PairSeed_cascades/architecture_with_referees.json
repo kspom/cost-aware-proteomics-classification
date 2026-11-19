@@ -1,0 +1,30 @@
+{
+  "name": "PairSeedCascade-with-referees",
+  "description": "Canonical 7-test cascade T1-T7 plus within-bucket OvR referees that disambiguate trio and residual4 to specific cancer classes. The referees fire AFTER the cascade assigns a bucket: argmax over the surviving referees produces the final class. With both bucket-disambiguation layers in place, every sample receives a 12-class prediction (no bucket output remains in the final decision).",
+  "n_tests": 14,
+  "decision_logic": [
+    "T1_MYEL   > 0  -> MYEL",
+    "T3_CLL    > 0  -> if T6_CLLvsLYMPH > 0: LYMPH else CLL",
+    "T2_AML    > 0  -> AML",
+    "T4_trio   > 0  -> trio bucket -> argmax{T41_CRC, T42_LUNGC, T43_OVC}",
+    "T5_GLIOM  > 0  -> GLIOM",
+    "T7_LYMPH  > 0  -> LYMPH",
+    "else            -> residual4 bucket -> argmax{T71_BRC, T72_CVX, T73_ENDC, T74_PRC}"
+  ],
+  "tests": [
+    {"test_id": "T1_MYEL",       "positive_classes": ["MYEL"],           "training_cohort": "full", "target_k": 8},
+    {"test_id": "T2_AML",        "positive_classes": ["AML"],            "training_cohort": "full", "target_k": 8},
+    {"test_id": "T3_CLL",        "positive_classes": ["CLL"],            "training_cohort": "full", "target_k": 8},
+    {"test_id": "T4_trio",       "positive_classes": ["CRC","LUNGC","OVC"], "training_cohort": "full", "target_k": 8},
+    {"test_id": "T5_GLIOM",      "positive_classes": ["GLIOM"],          "training_cohort": "excl:AML,CLL,MYEL", "target_k": 8},
+    {"test_id": "T6_CLLvsLYMPH", "positive_classes": ["LYMPH"],          "training_cohort": "only:CLL,LYMPH", "target_k": 8},
+    {"test_id": "T7_LYMPH",      "positive_classes": ["LYMPH"],          "training_cohort": "excl:AML,CLL,MYEL,GLIOM,CRC,LUNGC,OVC", "target_k": 8},
+    {"test_id": "T41_CRC",       "positive_classes": ["CRC"],            "training_cohort": "only:CRC,LUNGC,OVC", "target_k": 8},
+    {"test_id": "T42_LUNGC",     "positive_classes": ["LUNGC"],          "training_cohort": "only:CRC,LUNGC,OVC", "target_k": 8},
+    {"test_id": "T43_OVC",       "positive_classes": ["OVC"],            "training_cohort": "only:CRC,LUNGC,OVC", "target_k": 8},
+    {"test_id": "T71_BRC",       "positive_classes": ["BRC"],            "training_cohort": "only:BRC,CVX,ENDC,PRC", "target_k": 8},
+    {"test_id": "T72_CVX",       "positive_classes": ["CVX"],            "training_cohort": "only:BRC,CVX,ENDC,PRC", "target_k": 8},
+    {"test_id": "T73_ENDC",      "positive_classes": ["ENDC"],           "training_cohort": "only:BRC,CVX,ENDC,PRC", "target_k": 8},
+    {"test_id": "T74_PRC",       "positive_classes": ["PRC"],            "training_cohort": "only:BRC,CVX,ENDC,PRC", "target_k": 8}
+  ]
+}

@@ -1,0 +1,19 @@
+# input data (download, see README)
+pancancer_olink_data_biostudies_v2.txt
+41467_2023_39765_MOESM7_ESM.xlsx
+# everything produced by the code
+filtered_wide.csv
+voted_sex_labels.csv
+voted_sex_summary.csv
+paper_figures/
+PairSeed_no_cascade/
+PairSeed_cascades/*
+!PairSeed_cascades/architecture.json
+!PairSeed_cascades/architecture_with_referees.json
+Supplementary materials/
+# Python
+__pycache__/
+*.pyc
+.venv*/
+.DS_Store
+._*

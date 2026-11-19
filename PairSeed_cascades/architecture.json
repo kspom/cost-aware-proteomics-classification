@@ -1,0 +1,58 @@
+{
+  "name": "PairSeedCascade",
+  "description": "Hierarchical cascade of 7 binary LDA tests with a priority-order decision logic. Each test is defined by its positive class(es) and training cohort restriction; the protein panel and LDA weights are derived from filtered_wide.csv by running PairSeed (seed-pair + greedy-forward expansion with branching, plateau stop) at max panel size target_k per test.",
+  "n_tests": 7,
+  "decision_logic": [
+    "T1_MYEL    > 0 -> MYEL",
+    "T3_CLL     > 0 -> if T6_CLLvsLYMPH > 0: LYMPH else CLL",
+    "T2_AML     > 0 -> AML",
+    "T4_trio    > 0 -> trio  (CRC, LUNGC, OVC)",
+    "T5_GLIOM   > 0 -> GLIOM",
+    "T7_LYMPH   > 0 -> LYMPH",
+    "else            -> residual4  (BRC, CVX, ENDC, PRC)"
+  ],
+  "tests": [
+    {
+      "test_id": "T1_MYEL",
+      "positive_classes": ["MYEL"],
+      "training_cohort": "full",
+      "target_k": 8
+    },
+    {
+      "test_id": "T2_AML",
+      "positive_classes": ["AML"],
+      "training_cohort": "full",
+      "target_k": 8
+    },
+    {
+      "test_id": "T3_CLL",
+      "positive_classes": ["CLL"],
+      "training_cohort": "full",
+      "target_k": 8
+    },
+    {
+      "test_id": "T4_trio",
+      "positive_classes": ["CRC", "LUNGC", "OVC"],
+      "training_cohort": "full",
+      "target_k": 8
+    },
+    {
+      "test_id": "T5_GLIOM",
+      "positive_classes": ["GLIOM"],
+      "training_cohort": "excl:AML,CLL,MYEL",
+      "target_k": 8
+    },
+    {
+      "test_id": "T6_CLLvsLYMPH",
+      "positive_classes": ["LYMPH"],
+      "training_cohort": "only:CLL,LYMPH",
+      "target_k": 8
+    },
+    {
+      "test_id": "T7_LYMPH",
+      "positive_classes": ["LYMPH"],
+      "training_cohort": "excl:AML,CLL,MYEL,GLIOM,CRC,LUNGC,OVC",
+      "target_k": 8
+    }
+  ]
+}
